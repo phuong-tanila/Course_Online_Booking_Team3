@@ -44,15 +44,17 @@ public class User implements Serializable {
 	public String description;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "createBy", fetch = FetchType.LAZY)
-	public Set<Course> courses;
+	public Set<Course> coursesCreateBy;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher", fetch = FetchType.LAZY)
-	public Set<Course> courses1;
+	public Set<Course> coursesTeacher;
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lastUpdateUser", fetch = FetchType.LAZY)
+	public Set<Course> coursesLastUpdateUser;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	public Set<Order> orders;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
-
 }
