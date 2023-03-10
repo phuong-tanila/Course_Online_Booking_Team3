@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import fa.training.backend.entities.Users;
 
 public interface UsersRepository extends JpaRepository<Users, Integer>{
+	
+	//Function findByEmailOrPhone
 	 @Query("SELECT u FROM Users u WHERE u.email = :searchKey OR u.phone = :searchKey")
 	    Users findByEmailOrPhone(String searchKey);
 }
