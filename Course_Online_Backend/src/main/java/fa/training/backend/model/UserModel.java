@@ -12,10 +12,8 @@ import java.util.Set;
 public class UserModel {
     @JsonProperty
     public int id;
-    public String password;
     public String fullname;
     public String phone;
     public String email;
-    public String role;
     public String description;
 }

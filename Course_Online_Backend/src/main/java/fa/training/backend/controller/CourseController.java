@@ -32,7 +32,7 @@ public class CourseController {
 	@Autowired
 	public MapStructConverter mapStructConverter;
 	
-	@GetMapping("/courses")
+	@GetMapping("/coursesAll")
 	public List<CourseModel> getCourse() 
 	{
 		List<CourseModel> modelList = new ArrayList<>();;
