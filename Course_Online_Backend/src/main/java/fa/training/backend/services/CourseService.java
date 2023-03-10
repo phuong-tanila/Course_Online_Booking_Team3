@@ -25,9 +25,18 @@ public class CourseService {
 		return courseRepository.findAll();
 	}
 
+<<<<<<< HEAD
 	public List<Course> getAllCourses(Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Course> pagedResult = courseRepository.findAll(pageable);
+=======
+
+	public List<Course> getAllCourses(Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+		Page<Course> pagedResult = courseRepository.findAll(pageable);
+
+>>>>>>> proj1/main
 		if (pagedResult.hasContent()) {
 			return pagedResult.getContent();
 		} else {
@@ -37,6 +46,7 @@ public class CourseService {
 
 	public Course findById(int id) throws RecordNotFoundException {
 		Optional<Course> course = courseRepository.findById(id);
+<<<<<<< HEAD
 		if (course.isPresent()) {
 			return course.get();
 		} else {
@@ -48,23 +58,37 @@ public class CourseService {
 //		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 //
 //		Page<Course> pagedResult = courseRepository.findAll(pageable);
-//
-//		if (pagedResult.hasContent()) {
-//			return pagedResult.getContent();
-//		} else {
-//			return new ArrayList<Course>();
-//		}
-//	}
+=======
 
-//	public List<Course> getCourseByCategoryName(Category category, Pageable pageable) {
-//		Pageable pg = PageRequest.of(0, 5);
-//		List<Course> courses = courseRepository.findCourseByCategoryName(category,pg);
-//        return courses;
-//    }
-//	public List<Course> findCourseByCategoryName(Category category){
-//		List<Course> courses = courseRepository.findCourseByCategoryName(category);
-//		return courses;
-//	}
+		if (course.isPresent()) {
+			return course.get();
+		} else {
+			throw new RecordNotFoundException("No course exist for given id");
+		}
+	}
+>>>>>>> proj1/main
+//
+	public List<Course> sortCoursesByRating(Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+
+		Page<Course> pagedResult = courseRepository.findAll(pageable);
+
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		} else {
+			return new ArrayList<Course>();
+		}
+	}
+
+	public List<Course> getCourseByCategoryName(Category category, Pageable pageable) {
+		Pageable pg = PageRequest.of(0, 5);
+		List<Course> courses = courseRepository.findCourseByCategoryName(category,pg);
+        return courses;
+    }
+	public List<Course> findCourseByCategoryName(Category category){
+		List<Course> courses = courseRepository.findCourseByCategoryName(category);
+		return courses;
+	}
 //	public List<Course> sortByRating
 
 }

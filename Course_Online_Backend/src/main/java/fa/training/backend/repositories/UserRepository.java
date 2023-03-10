@@ -10,5 +10,5 @@ import fa.training.backend.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-//	List<Users> findAllUser();
+	List<User> findAllUser();
 }
