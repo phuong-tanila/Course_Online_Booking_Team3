@@ -1,9 +1,9 @@
 # Course_Online_Booking_Team3
 
 ## Team member:
-- Hoai Phuong (Leader)
-- Minh Chau
-- Phuc Thinh
+- Nguyen Hoai Phuong (Leader)
+- Nguyen Nhat Minh Chau
+- Pham Phuc Thinh
 - Minh Quoc
 
 ## Component
