@@ -9,11 +9,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -21,9 +17,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Transactional
 @JsonSerialize
-@ToString
 @Entity
 @Table(name = "course")
+@EqualsAndHashCode
 public class Course implements Serializable {
 //	@Jackson
 	@Id

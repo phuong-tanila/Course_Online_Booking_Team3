@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <link rel="icon" href="../../resources/img/CODI_logo_title.png" type="image/png" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AVPNRTv0apljAkWHaqZyMDTbKipmIQ_HpbKISKwAdC4_IJtCIVck8tSG8M7k6DgiCZEvrctor-faOGWT&currency=USD"></script>
+  <title>Coding4Life</title>
+  <!-- main css -->
+  <link rel="stylesheet" href="../../resources/css/cart.css" />
+</head>
+<body>
+<div class="container cart-container">
+
+  <h1 class="cart-title">Cart</h1>
+  <div class="cart-content">
+    <table class="cart">
+      <thead class="cart-header">
+      <tr>
+        <th class="cart-header-item" colspan="2">Course</th>
+        <th class="cart-header-item">Fee</th>
+        <th class="cart-header-item cart-header-quantity">Quantity</th>
+        <th class="cart-header-item">Total</th>
+      </tr>
+      </thead>
+
+    </table>
+
+  </div>
+
+
+
+  <div class="cart-totals-container">
+    <ul class="cart-totals">
+      <li class="cart-total">
+        <div class="cart-total-label">
+          <strong>Địa chỉ giao hàng:</strong>
+        </div>
+        <div class="cart-total-value cart-address">
+          <a href="#">Thêm địa chỉ:</a>
+        </div>
+      </li>
+      <li class="cart-total">
+        <div class="cart-total-label">Total Price:</div>
+        <div class="cart-total-value total">
+          <span></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="cart-action">
+    <div class="checkout-button">Check out</div>
+
+  </div>
+  <div class="overlay"></div>
+  <div class="cart-action cart-paypal">
+    <a href="#" class="modal-close-button fa-solid fa-x">
+    </a>
+    <div id="paypal-button-container"></div>
+
+  </div>
+
+</div>
+</body>
+<script src="../../resources/js/cart.js"></script>
+</html>

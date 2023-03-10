@@ -10,16 +10,16 @@ import fa.training.backend.repositories.CategoryRepository;
 
 @Service
 public class CategoryService {
-//	@Autowired
-//	CategoryRepository categoryRepository;
-//	public List<Category> getAll() {
-//        return categoryRepository.findAll();
-//    }
-//	public Category getCategoryByName(String categoryName) {
-//        return categoryRepository.findCategoryByName(categoryName);
-//    }
-//    public Category getCategoryById(int id) {
-//        return categoryRepository.findCategoryById(id);
-//    }
+	@Autowired
+	CategoryRepository categoryRepository;
+	public List<Category> getAll() {
+        return categoryRepository.findAll();
+    }
+	public Category getCategoryByName(String categoryName) {
+        return categoryRepository.findCategoryByName(categoryName);
+    }
+    public Category getCategoryById(int id) {
+        return categoryRepository.findCategoryById(id);
+    }
 
 }
