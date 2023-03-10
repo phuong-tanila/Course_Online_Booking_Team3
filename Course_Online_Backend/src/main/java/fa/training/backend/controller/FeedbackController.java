@@ -3,6 +3,7 @@ package fa.training.backend.controller;
 import fa.training.backend.entities.Course;
 import fa.training.backend.entities.Feedback;
 import fa.training.backend.mapper.MapStructConverter;
+import fa.training.backend.mapper.implement.FeedbackMapperImpl;
 import fa.training.backend.model.FeedbackModel;
 import fa.training.backend.services.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +22,22 @@ import java.util.List;
 @RestController
 public class FeedbackController {
     @Autowired
-    private MapStructConverter<Feedback, FeedbackModel> mapStructConverter;
+    private FeedbackMapperImpl mapStructConverter;
     @Autowired
     private FeedbackService feedbackService;
-    @GetMapping("/feedbacks/{courseId}")
-    public ResponseEntity<List<FeedbackModel>> getAllByUserId(
-            @PathVariable("courseId") Integer courseId,
-            @RequestParam(defaultValue = "0") int pageNo,
-            @RequestParam(defaultValue = "5") Integer pageSize,
-            @RequestParam(defaultValue = "rating") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction
-    )
-    {
-        List<Feedback> feedbacks = feedbackService.getAllFeedbacks(courseId, pageNo, pageSize, sortBy, direction);
-        List<FeedbackModel> feedbackModels = new ArrayList<>();
-        feedbacks.forEach(f -> feedbackModels.add(mapStructConverter.toModel(f)));
-        return new ResponseEntity<List<FeedbackModel>>(feedbackModels, new HttpHeaders(), HttpStatus.OK);
-    }
+//    @GetMapping("/feedbacks/{courseId}")
+//
+//    public ResponseEntity<List<FeedbackModel>> getAllByUserId(
+//            @PathVariable("courseId") Integer courseId,
+//            @RequestParam(defaultValue = "0") int pageNo,
+//            @RequestParam(defaultValue = "5") Integer pageSize,
+//            @RequestParam(defaultValue = "rating") String[] sortBy,
+//            @RequestParam(defaultValue = "desc") String[] direction
+//    )
+//    {
+//        List<Feedback> feedbacks = feedbackService.getAllFeedbacks(courseId, pageNo, pageSize, sortBy, direction);
+//        List<FeedbackModel> feedbackModels = new ArrayList<>();
+//        feedbacks.forEach(f -> feedbackModels.add(mapStructConverter.toModel(f)));
+//        return new ResponseEntity<List<FeedbackModel>>(feedbackModels, new HttpHeaders(), HttpStatus.OK);
+//    }
 }

@@ -69,7 +69,7 @@ public class Course implements Serializable {
 	@JoinTable(name = "CategoryCourse", joinColumns = {@JoinColumn(referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(referencedColumnName = "id")})
 	public Set<Category> categories;
-	@JsonIgnore
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
 

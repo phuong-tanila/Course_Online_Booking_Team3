@@ -10,7 +10,7 @@ import fa.training.backend.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Integer> {
-    Category findCategoryByName(String categoryName);
+    Category findCategoryByCategoryName(String categoryName);
     Category findCategoryById(int id);
     List<Category> findAll();
 

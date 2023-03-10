@@ -18,16 +18,14 @@ public class UserController {
     UserService userService;
 	@Autowired
 	public CourseService courseService;
-	@Autowired
-	public MapStructConverter mapStructConverter;
-	@GetMapping("/list-user")
-	public List<UserModel> getListUser() {
-		List<UserModel> modelList = new ArrayList<>();
-		List<User> userList = userService.findAllUser();
-		for (User u : userList) {
-			UserModel userModel = mapStructConverter.sourceToDestination(u);
-			modelList.add(userModel);
-		}
-		return modelList;
-	}
+//	@GetMapping("/list-user")
+//	public List<UserModel> getListUser() {
+//		List<UserModel> modelList = new ArrayList<>();
+//		List<User> userList = userService.findAllUser();
+//		for (User u : userList) {
+//			UserModel userModel = mapStructConverter.sourceToDestination(u);
+//			modelList.add(userModel);
+//		}
+//		return modelList;
+//	}
 }

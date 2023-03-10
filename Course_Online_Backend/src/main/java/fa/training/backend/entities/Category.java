@@ -25,7 +25,7 @@ public class Category {
 	public int id;
 	@Column(length = Integer.MAX_VALUE)
 	public String categoryName;
-	@JsonIgnore
+
 	@ManyToMany(mappedBy = "categories")
 	public Set<Course> courses;
 }

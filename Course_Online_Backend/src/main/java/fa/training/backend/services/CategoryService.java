@@ -16,10 +16,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 	public Category getCategoryByName(String categoryName) {
-        return categoryRepository.findCategoryByName(categoryName);
+        return categoryRepository.findCategoryByCategoryName(categoryName);
     }
     public Category getCategoryById(int id) {
         return categoryRepository.findCategoryById(id);
     }
+    
 
 }

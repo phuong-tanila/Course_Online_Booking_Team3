@@ -1,6 +1,5 @@
 package fa.training.backend.model;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fa.training.backend.entities.Course;
@@ -17,11 +16,4 @@ public class UserModel {
     public String phone;
     public String email;
     public String description;
-=======
-public class UserModel {
-    private int id;
-    private String fullname;
-    private String email;
-
->>>>>>> proj1/main
 }
