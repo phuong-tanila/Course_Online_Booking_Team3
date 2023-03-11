@@ -11,7 +11,5 @@ import fa.training.backend.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	List<User> findAll();
-
 	public List<User> findAllByFullnameIgnoreCaseContaining(String fullName, Pageable pageable);
 }

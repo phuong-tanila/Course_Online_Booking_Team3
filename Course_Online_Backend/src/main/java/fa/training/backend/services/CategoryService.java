@@ -12,15 +12,10 @@ import fa.training.backend.repositories.CategoryRepository;
 public class CategoryService {
 	@Autowired
 	CategoryRepository categoryRepository;
-	public List<Category> getAll() {
-        return categoryRepository.findAll();
-    }
-	public Category getCategoryByName(String categoryName) {
-        return categoryRepository.findCategoryByCategoryName(categoryName);
-    }
-    public Category getCategoryById(int id) {
-        return categoryRepository.findCategoryById(id);
-    }
-    
-
+	public List<Category> getAllCategory() {
+		return categoryRepository.findAll();
+	}
+	public List<Category> getCategoryCategoryName(String categoryName) {
+		return categoryRepository.findByCategoryNameIgnoreCaseContaining(categoryName);
+	}
 }
