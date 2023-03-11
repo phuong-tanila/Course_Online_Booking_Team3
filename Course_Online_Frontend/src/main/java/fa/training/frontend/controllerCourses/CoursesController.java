@@ -1,4 +1,4 @@
-package fa.training.frontend.controller;
+package fa.training.frontend.controllerCourses;
 
 import model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,18 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 
 @Controller
-public class CourseController {
+public class CoursesController {
     @Autowired
     private RestTemplate restTemplate;
     @Value("${courses.api.url}")
     private String apiUrl;
-
     @GetMapping("/home")
     public String index(Model model) {
         String url = apiUrl + "/courses";
@@ -28,7 +26,9 @@ public class CourseController {
     }
     @GetMapping("/")
     public String index() {
-        return new String("home-page");
+//        model.addAttribute("courses", new Course());
+//        System.err.println(model);
+        return "home-page";
     }
 //    @PostMapping("/")
 //    public String getWeatherInfo(@ModelAttribute("weather") WeatherInfo weather, Model model) {
