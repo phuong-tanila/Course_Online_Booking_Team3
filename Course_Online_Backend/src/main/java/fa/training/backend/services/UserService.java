@@ -2,17 +2,21 @@ package fa.training.backend.services;
 
 import java.util.List;
 
+import fa.training.backend.entities.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import fa.training.backend.entities.User;
 import fa.training.backend.repositories.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 	
@@ -26,4 +30,14 @@ public class UserService {
 
         return userRepository.findAllByFullnameIgnoreCaseContaining(fullName, pageable);
     }
+
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByEmailOrPhone(username);
+		if (user == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		return new CustomUserDetails(user);
+	}
 }

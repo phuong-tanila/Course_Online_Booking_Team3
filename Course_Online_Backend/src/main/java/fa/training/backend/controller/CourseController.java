@@ -29,7 +29,7 @@ import javax.websocket.server.PathParam;
 
 @RestController
 @Slf4j
-@RequestMapping("courses")
+@RequestMapping("/courses")
 //@RequestMapping(path="/JSON", produces="application/json")
 public class CourseController {
 
@@ -53,16 +53,17 @@ public class CourseController {
         return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
     }
 
-//	@GetMapping("/")
-//    public ResponseEntity<List<Course>> getAllCourses(
-//                        @RequestParam(defaultValue = "0") Integer pageNo,
-//                        @RequestParam(defaultValue = "5") Integer pageSize,
-//                        @RequestParam(defaultValue = "id") String sortBy)
-//    {
-//        List<Course> listCourses = courseService.getAllCourses(pageNo, pageSize, sortBy);
-//
-//        return new ResponseEntity<List<Course>>(listCourses, new HttpHeaders(), HttpStatus.OK);
-//    }
+	@GetMapping("")
+    public ResponseEntity<List<CourseModel>> getAllCourses(
+                        @RequestParam(defaultValue = "0") Integer pageNo,
+                        @RequestParam(defaultValue = "5") Integer pageSize,
+                        @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Course> listCourses = courseService.getAllCourses(pageNo, pageSize, sortBy);
+        List<CourseModel> result = new ArrayList<>();
+        listCourses.forEach(c -> result.add(courseMapper.toModel(c)));
+        return new ResponseEntity<List<CourseModel>>(result, new HttpHeaders(), HttpStatus.OK);
+    }
 
 //    @GetMapping("/")
 //	@GetMapping("/sortbyrating")
