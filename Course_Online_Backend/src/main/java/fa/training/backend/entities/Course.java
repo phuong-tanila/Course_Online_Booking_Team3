@@ -9,11 +9,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -21,9 +17,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Transactional
 @JsonSerialize
-@ToString
 @Entity
 @Table(name = "course")
+@EqualsAndHashCode
 public class Course implements Serializable {
 //	@Jackson
 	@Id
@@ -65,7 +61,7 @@ public class Course implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "last_update_user", referencedColumnName = "id")
 	public User lastUpdateUser;
-	@JsonIgnore
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	public Set<OrderDetail> orderDetails;
 
@@ -73,7 +69,7 @@ public class Course implements Serializable {
 	@JoinTable(name = "CategoryCourse", joinColumns = {@JoinColumn(referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(referencedColumnName = "id")})
 	public Set<Category> categories;
-	@JsonIgnore
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
 

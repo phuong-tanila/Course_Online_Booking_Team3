@@ -1,22 +1,35 @@
 package fa.training.backend.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import fa.training.backend.entities.Category;
+import fa.training.backend.exception.RecordNotFoundException;
+
+import fa.training.backend.mapper.CategoryMapper;
+import fa.training.backend.mapper.CourseMapper;
+import fa.training.backend.mapper.FeedbackMapper;
+import fa.training.backend.model.CourseModel;
+import fa.training.backend.repositories.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import fa.training.backend.entities.Course;
-import fa.training.backend.exception.RecordNotFoundException;
-import fa.training.backend.mapper.MapStructConverter;
-import fa.training.backend.model.CourseModel;
 import fa.training.backend.services.CategoryService;
 import fa.training.backend.services.CourseService;
 
+import javax.websocket.server.PathParam;
+
 @RestController
+@Slf4j
+@RequestMapping("courses")
 //@RequestMapping(path="/JSON", produces="application/json")
 public class CourseController {
 
@@ -25,28 +38,22 @@ public class CourseController {
 	@Autowired
 	public CategoryService categoryService;
 	@Autowired
-	private MapStructConverter mapStructConverter;
-	@GetMapping("/courses")
-	public List<CourseModel> getCourseBy() 
-	{
-		List<CourseModel> modelList = new ArrayList<>();;
-		List<Course> courseList= courseService.findAll();
-		for(Course course : courseList) {
-			CourseModel courseModel = mapStructConverter.sourceToDestination(course);
-			modelList.add(courseModel);
-		}
-		return modelList;
-	}
-	
-//	@GetMapping("/courses/{id}")
-//    public ResponseEntity<Course> getCourseById(@PathVariable("id") int id)
-//                                                    throws RecordNotFoundException {
-//        Course course = courseService.findById(id);
-// 
-//        return new ResponseEntity<Course>(course, new HttpHeaders(), HttpStatus.OK);
-//    }
-// 
-//	@GetMapping("/courses")
+	private CourseMapper courseMapper;
+    @Autowired
+    public CategoryMapper categoryMapper;
+    @Autowired
+    public FeedbackMapper feedbackMapper;
+	@GetMapping("/{id}")
+    public ResponseEntity<CourseModel> getCourseById(@PathVariable("id") int id)
+			throws RecordNotFoundException {
+
+        Course course = courseService.findById(id);
+        CourseModel courseModel= courseMapper.toModel(course);
+
+        return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
+    }
+
+//	@GetMapping("/")
 //    public ResponseEntity<List<Course>> getAllCourses(
 //                        @RequestParam(defaultValue = "0") Integer pageNo,
 //                        @RequestParam(defaultValue = "5") Integer pageSize,
@@ -56,7 +63,9 @@ public class CourseController {
 //
 //        return new ResponseEntity<List<Course>>(listCourses, new HttpHeaders(), HttpStatus.OK);
 //    }
-//	@GetMapping("/courses/sortbyrating")
+
+//    @GetMapping("/")
+//	@GetMapping("/sortbyrating")
 //    public ResponseEntity<List<Course>> sortByRating(
 //                        @RequestParam(defaultValue = "0") Integer pageNo,
 //                        @RequestParam(defaultValue = "5") Integer pageSize,
@@ -66,23 +75,65 @@ public class CourseController {
 //
 //        return new ResponseEntity<List<Course>>(listCourses, new HttpHeaders(), HttpStatus.OK);
 //    }
-	
-	
-//	@GetMapping(value = "/category/{categoryName}")
-//    public List<Course> getCourseByCategory(String categoryName, Pageable pageable){
-//		Category category= categoryService.getCategoryByName(categoryName);
-//		List<Course> list= courseService.getCourseByCategoryName(category, pageable);
-//     return  list;
-//    }
-//	@GetMapping(value = "/category/{categoryName}")
+//
+
+//	@GetMapping(value = "/categories")
+//	public List<Course> getCourseByCategory(
+//			@PathParam("categories") List<String> categoryName,
+//			@PathParam("pageNo")
+//	){
+//		List<Category> categories = new ArrayList<>();
+//		categoryName.forEach(cateName -> {
+//			categories.add(categoryService.getCategoryByName(cateName));
+//		});
+//		List<Course> list= courseService.getCourseByCategory(categories, pageable);
+//		return  list;
+//	}
+
+
+
+
+//	@GetMapping(value = "/categories/{categoryName}")
 //	public List<Course> getCourseByCategory(String categoryName){
 //		Category category= categoryService.getCategoryByName(categoryName);
-//		List<Course> list= courseService.findCourseByCategoryName(category);
+//		List<Course> list= courseService.findCourseByCategory(category);
 //		return list;
-//		
 //	}
-	
-	
-	
+
+    /**
+     * @apiNote wait for checking naming conventions
+     * */
+	@GetMapping("/get-course-by-name")
+    public ResponseEntity<List<CourseModel>> getCourseByName(
+                @RequestParam(defaultValue = "0") Integer pageNo,
+                @RequestParam(defaultValue = "5") Integer pageSize,
+                @RequestParam(defaultValue = "id") String[] sortBy,
+                @RequestParam(defaultValue = "desc") String[] diretions,
+                @RequestParam (defaultValue = "java")String courseName
+            )throws RecordNotFoundException{
+        if(sortBy.length != diretions.length)
+        {
+            return new ResponseEntity("the length of sortBy and diretions are not identical", new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
+        HashMap<String, String> orderHashMap = new HashMap<>();
+        for (int i = 0; i < sortBy.length; i++) {
+            String currentProperty = sortBy[i];
+            String currentDirection = diretions[i];
+            orderHashMap.put(currentProperty, currentDirection);
+        }
+        List<Course> list = courseService.findByCourseName(pageNo, pageSize, orderHashMap, courseName);
+		List<CourseModel> results = new ArrayList<>();
+		list.forEach(course -> results.add(courseMapper.toModel(course)));
+        return new ResponseEntity<List<CourseModel>>(results, new HttpHeaders(), HttpStatus.OK);
+    }
+	@GetMapping("/a")
+    public ResponseEntity<List<CourseModel>> getCourseCustom(){
+        List<Course> courses = courseService.customGetAll();
+        List<CourseModel> result = new ArrayList<>();
+        courses.forEach(c -> {
+            result.add(courseMapper.toModel(c));
+        });
+        return new ResponseEntity<List<CourseModel>>(result, new HttpHeaders(), HttpStatus.OK);
+    }
 
 }

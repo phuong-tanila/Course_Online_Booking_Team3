@@ -28,7 +28,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	public int id;
-	@JsonIgnore
+	
 	@Column
 	public String password;
 	@Column(length = Integer.MAX_VALUE)
@@ -37,22 +37,24 @@ public class User implements Serializable {
 	public String phone;
 	@Column(length = Integer.MAX_VALUE)
 	public String email;
-	@JsonIgnore
+	
 	@Column
 	public String role;
 	@Column(length = Integer.MAX_VALUE)
 	public String description;
-	@JsonIgnore
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "createBy", fetch = FetchType.LAZY)
-	public Set<Course> courses;
-	@JsonIgnore
+	public Set<Course> coursesCreateBy;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher", fetch = FetchType.LAZY)
-	public Set<Course> courses1;
-	@JsonIgnore
+	public Set<Course> coursesTeacher;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lastUpdateUser", fetch = FetchType.LAZY)
+	public Set<Course> coursesLastUpdateUser;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	public Set<Order> orders;
-	@JsonIgnore
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
-
 }

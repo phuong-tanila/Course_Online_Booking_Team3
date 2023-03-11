@@ -2,7 +2,6 @@ package fa.training.backend.entities;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,6 +27,8 @@ public class Feedback implements Serializable {
 	public String comment;
 	@Column
 	public int rating;
+	@Column
+	public Date createAt;
 	@OneToOne (cascade = CascadeType.ALL)
 	@JoinColumn(name = "order_detail_id")
 	public OrderDetail orderDetail;

@@ -1,6 +1,7 @@
 package fa.training.backend.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +10,6 @@ import lombok.Data;
 @Data
 public class CourseModel {
 	@JsonProperty
-	public int id;
 	public String courseName;
 	public String description;
 	public String objective;
@@ -22,5 +22,9 @@ public class CourseModel {
 	public Date endDate;
 	public boolean status;
 	public Date lastUpdateDate;
+	public UserModel createBy;
+	public UserModel teacher;
+	public UserModel lastUpdateUser;
+	public Set<FeedbackModel> feedbacks;
 	
 }
