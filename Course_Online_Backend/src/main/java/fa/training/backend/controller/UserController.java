@@ -2,7 +2,6 @@ package fa.training.backend.controller;
 
 import fa.training.backend.entities.Course;
 import fa.training.backend.entities.User;
-import fa.training.backend.mapper.MapStructConverter;
 import fa.training.backend.model.UserModel;
 import fa.training.backend.services.CourseService;
 import fa.training.backend.services.UserService;

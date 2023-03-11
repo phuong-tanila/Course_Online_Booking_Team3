@@ -2,8 +2,7 @@ package fa.training.backend.controller;
 
 import fa.training.backend.entities.Course;
 import fa.training.backend.entities.Feedback;
-import fa.training.backend.mapper.MapStructConverter;
-import fa.training.backend.mapper.implement.FeedbackMapperImpl;
+import fa.training.backend.mapper.FeedbackMapper;
 import fa.training.backend.model.FeedbackModel;
 import fa.training.backend.services.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.List;
 @RestController
 public class FeedbackController {
     @Autowired
-    private FeedbackMapperImpl mapStructConverter;
+    private FeedbackMapper feedbackMapper;
     @Autowired
     private FeedbackService feedbackService;
 //    @GetMapping("/feedbacks/{courseId}")

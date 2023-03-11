@@ -6,7 +6,10 @@ import java.util.List;
 
 import fa.training.backend.entities.Category;
 import fa.training.backend.exception.RecordNotFoundException;
-import fa.training.backend.mapper.implement.CourseMapperImpl;
+
+import fa.training.backend.mapper.CategoryMapper;
+import fa.training.backend.mapper.CourseMapper;
+import fa.training.backend.mapper.FeedbackMapper;
 import fa.training.backend.model.CourseModel;
 import fa.training.backend.repositories.CourseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +38,19 @@ public class CourseController {
 	@Autowired
 	public CategoryService categoryService;
 	@Autowired
-	private CourseMapperImpl courseMapper;
-	
+	private CourseMapper courseMapper;
+    @Autowired
+    public CategoryMapper categoryMapper;
+    @Autowired
+    public FeedbackMapper feedbackMapper;
 	@GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable("id") int id)
-			throws RecordNotFoundException, RecordNotFoundException {
-        Course course = courseService.findById(id);
+    public ResponseEntity<CourseModel> getCourseById(@PathVariable("id") int id)
+			throws RecordNotFoundException {
 
-        return new ResponseEntity<Course>(course, new HttpHeaders(), HttpStatus.OK);
+        Course course = courseService.findById(id);
+        CourseModel courseModel= courseMapper.toModel(course);
+
+        return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
     }
 
 //	@GetMapping("/")
@@ -101,7 +109,7 @@ public class CourseController {
                 @RequestParam(defaultValue = "5") Integer pageSize,
                 @RequestParam(defaultValue = "id") String[] sortBy,
                 @RequestParam(defaultValue = "desc") String[] diretions,
-                @RequestParam String courseName
+                @RequestParam (defaultValue = "java")String courseName
             )throws RecordNotFoundException{
         if(sortBy.length != diretions.length)
         {

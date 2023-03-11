@@ -61,7 +61,7 @@ public class Course implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "last_update_user", referencedColumnName = "id")
 	public User lastUpdateUser;
-	@JsonIgnore
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	public Set<OrderDetail> orderDetails;
 

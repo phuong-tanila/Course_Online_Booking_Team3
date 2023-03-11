@@ -1,14 +1,15 @@
 package fa.training.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fa.training.backend.entities.Course;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
-public class FeedbackModel {
+public class CategoryModel {
     @JsonProperty
     public int id;
-    public String comment;
-    public int rating;
+    public String categoryName;
+    public Set<CourseModel> courses;
 
 }
