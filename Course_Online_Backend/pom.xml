@@ -6,11 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.9</version>
-<<<<<<< HEAD
-		<relativePath/> <!-- lookup parent from repository -->
-=======
 		<relativePath /> <!-- lookup parent from repository -->
->>>>>>> test
 	</parent>
 	<groupId>fa.training</groupId>
 	<artifactId>Course_Online_Backend</artifactId>
@@ -26,13 +22,8 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-=======
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
->>>>>>> test
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,10 +33,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-<<<<<<< HEAD
-
-=======
->>>>>>> test
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -72,10 +59,6 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-	</dependencies>
-
-=======
 		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -83,7 +66,6 @@
 			<version>1.4.1.Final</version>
 		</dependency>
 	</dependencies>
->>>>>>> test
 	<build>
 		<plugins>
 			<plugin>
@@ -98,11 +80,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<<<<<<< HEAD
-		</plugins>
-	</build>
-
-=======
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -125,5 +102,4 @@
 			</plugin>
 		</plugins>
 	</build>
->>>>>>> test
 </project>
