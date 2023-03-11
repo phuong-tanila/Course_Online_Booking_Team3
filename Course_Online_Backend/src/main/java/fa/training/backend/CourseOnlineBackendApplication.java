@@ -1,5 +1,6 @@
 package fa.training.backend;
 
+<<<<<<< HEAD
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +9,10 @@ import org.springframework.context.annotation.Bean;
 import fa.training.backend.entities.Users;
 import fa.training.backend.repo.UsersRepository;
 
+=======
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+>>>>>>> test
 @SpringBootApplication
 public class CourseOnlineBackendApplication {
 
@@ -15,6 +20,7 @@ public class CourseOnlineBackendApplication {
 		SpringApplication.run(CourseOnlineBackendApplication.class, args);
 	}
 
+<<<<<<< HEAD
 	@Bean
 	public CommandLineRunner insertSampleUser(UsersRepository repository) {
 		return args -> {
@@ -26,3 +32,6 @@ public class CourseOnlineBackendApplication {
 		};
 	}
 }
+=======
+}
+>>>>>>> test

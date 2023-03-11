@@ -77,7 +77,14 @@ local.properties
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+<<<<<<< HEAD
 .idea/**/7. MOCK PROJECT.iml
+=======
+<<<<<<< HEAD
+=======
+.idea/**/7. MOCK PROJECT.iml
+>>>>>>> proj1/main
+>>>>>>> test
 .idea/**
 
 # AWS User-specific

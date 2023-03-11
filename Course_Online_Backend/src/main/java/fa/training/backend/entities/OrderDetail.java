@@ -1,23 +1,32 @@
 package fa.training.backend.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "order_detail")
-public class OrderDetail extends BaseEntity{
+public class OrderDetail{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private int price;
-	@ManyToOne
-	@JoinColumn(name = "orderId", referencedColumnName = "id")
-	private Order order;
+	public int id;
+	@Column
+	public int price;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id", referencedColumnName = "id")
+	public Order order;
 	@OneToOne(mappedBy = "orderDetail")
-	private Feedback feedback;
-	@ManyToOne
-	@JoinColumn(name = "courseId", referencedColumnName = "id")
-	private Course course;
+	public Feedback feedback;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "course_id", referencedColumnName = "id")
+	public Course course;
 }
