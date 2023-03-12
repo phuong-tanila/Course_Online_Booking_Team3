@@ -814,14 +814,35 @@ button:focus {
   z-index: 2;
   color: #002347;
   display: inline-block;
-  padding: 3px 15px 0px 5px;
-  width: 150px;
+  padding: 3px 10px 0px 10px;
+  width: 170px;
   height: 30px;
   text-align: center;
   background: #fdc632;
   font-family: "Rubik", sans-serif;
   font-weight: 500;
   font-size: 20px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.single_course .price-list-course {
+  position: absolute;
+  top: 30px;
+  right: 26px;
+  z-index: 2;
+  color: #002347;
+  display: inline-block;
+  padding: 3px 1px 0px 1px;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  background: #fdc632;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -854,8 +875,21 @@ button:focus {
   text-transform: uppercase;
 }
 
+.single_course .course_content .tag-list-course {
+  padding: 2px 21px;
+  font-size: 12px;
+  color: #fff;
+  background: #002347;
+  text-transform: uppercase;
+}
+
 .single_course .course_content h4 {
   font-size: 20px;
+  font-weight: 500;
+}
+
+.single_course .course_content .course-name {
+  font-size: 17px;
   font-weight: 500;
 }
 
@@ -867,7 +901,16 @@ button:focus {
   margin: 0;
 }
 
+.single_course .course_content .course-duration {
+  margin: 0;
+  font-size: 13px;
+}
+
 .single_course .course_content .course_meta {
+  margin-top: 25px;
+}
+
+.single_course .course_content .list_course_meta {
   margin-top: 25px;
 }
 
@@ -880,9 +923,29 @@ button:focus {
   display: inline-block !important;
 }
 
+.single_course .authr_meta_list_course img {
+  width: 27px !important;
+  display: inline !important;
+}
+
 .single_course .authr_meta span {
   color: #002347;
   font-weight: 500;
+}
+
+.single_course .authr_meta_list_course{
+  width: 100%;
+}
+
+.single_course .authr_meta_list_course span {
+  color: #002347;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.list-course-slot{
+ display: flex;
+ font-size: 12px;
 }
 
 .single_course:hover {
@@ -4573,6 +4636,39 @@ h6 {
   position: relative;
 }
 
+/*  Admin Create Course Styles
+/* =================================== */
+.course-image{
+  width: 60% !important;
+}
+.teacher-select{
+  width: 35% !important;
+}
+.selection{
+  height: 100% !important;
+}
+.w-f-c{
+  width: fit-content !important;
+}
+.field--label{
+  background: transparent;
+  border: unset;
+  width: 30%;
+}
+.form--container .field--input{
+  height: 40px;
+}
+.select--input{
+  width: 50%;
+}
+.dateTime--input{
+  width: 250px;
+  text-align: center;
+  height: 40px;
+}
+.btn-submit{
+  margin: 0 auto;
+}
 /*---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
