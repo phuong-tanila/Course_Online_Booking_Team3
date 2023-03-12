@@ -33,6 +33,7 @@ public class Course implements Serializable {
     public Set<Category> categories;
     public Set<Feedback> feedbacks;
 
+
     public String getTuitionFeeFormat() {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         return  (formatter.format(this.tuitionFee) + " VNĐ").replace(",", ".");
