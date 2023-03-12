@@ -26,6 +26,6 @@ public class Category {
 	@Column(length = Integer.MAX_VALUE)
 	public String categoryName;
 
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy = "categories" , fetch = FetchType.LAZY)
 	public Set<Course> courses;
 }

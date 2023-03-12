@@ -19,9 +19,9 @@ public class CoursesController {
     private String apiUrl;
     @GetMapping("/home")
     public String index(Model model) {
-        String url = apiUrl + "/courses";
-        List<Course> courses = List.of(restTemplate.getForObject(url, Course[].class));
-        model.addAttribute("courses", courses);
+//        String url = apiUrl + "/courses";
+//        List<Course> courses = List.of(restTemplate.getForObject(url, Course[].class));
+//        model.addAttribute("courses", courses);
         return "home-page";
     }
     @GetMapping("/")

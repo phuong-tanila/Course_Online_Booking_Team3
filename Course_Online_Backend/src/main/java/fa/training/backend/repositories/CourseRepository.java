@@ -1,5 +1,6 @@
 package fa.training.backend.repositories;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
 
 	public Optional<Course> findById(int id);
-
-
+	@Query("select c from Course c where c.createDate < ?1 and c.id = ?2")
+	Optional<Course> findWithStartDateTimeBeforePresent(Date date,int id);
 
 //	public Page<Course> findAll(Pageable pageable);
 

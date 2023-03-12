@@ -5,11 +5,13 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fa.training.backend.model.CategoryModels.CategoryModel;
 import lombok.Data;
 
 @Data
 public class CourseModel {
 	@JsonProperty
+	public int id;
 	public String courseName;
 	public String description;
 	public String objective;
@@ -25,6 +27,7 @@ public class CourseModel {
 	public UserModel createBy;
 	public UserModel teacher;
 	public UserModel lastUpdateUser;
+	public Set<CategoryModel> categories;
 	public Set<FeedbackModel> feedbacks;
 	
 }

@@ -1,6 +1,7 @@
 package fa.training.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,7 @@ public class CategoryService {
 	public Category getCategoryByName(String categoryName) {
         return categoryRepository.findCategoryByCategoryName(categoryName);
     }
-    public Category getCategoryById(int id) {
+    public Optional<Category> getCategoryById(int id) {
         return categoryRepository.findCategoryById(id);
     }
-    
-
 }
