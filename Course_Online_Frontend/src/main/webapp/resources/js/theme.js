@@ -67,6 +67,39 @@
   }
   active_course();
 
+    /*----------------------------------------------------*/
+    /*  List Course
+      /*----------------------------------------------------*/
+  function active_list_course() {
+      if ($(".active_list_course").length) {
+        $(".active_list_course").owlCarousel({
+          margin: 20,
+          items: 4,
+          nav: true,
+          dots: false,
+          responsiveClass: true,
+          thumbs: true,
+          thumbsPrerendered: true,
+          navText: ["<div class = 'owl-nav' style = 'display: none'"],
+          responsive: {
+            0: {
+              items: 1,
+              margin: 0
+            },
+            991: {
+              items: 2,
+              margin: 10
+            },
+            1200: {
+              items: 4,
+              margin: 20
+            }
+          }
+        });
+      }
+    }
+    active_list_course();
+
   /*----------------------------------------------------*/
   /*  Event Slider
     /*----------------------------------------------------*/
