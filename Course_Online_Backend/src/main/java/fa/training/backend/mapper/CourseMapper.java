@@ -17,7 +17,6 @@ public interface CourseMapper {
     @Mapping(target="feedbacks", ignore = true)
     CourseModel toModel(Course course);
     Course toEntity(CourseModel courseModel);
-<<<<<<< HEAD
 
     @AfterMapping
     default void decodeHTMLCharacter(CourseModel courseModel){
@@ -27,8 +26,5 @@ public interface CourseMapper {
         courseModel.chapters.forEach(c -> c.setChapterName(StringEscapeUtils.escapeHtml4(c.chapterName)));
     }
 
-//    List<>
-=======
-    List<CourseModel> toListModel(List<Course> course);
->>>>>>> f70b0c005288ad0251bce84ec3a15e20ccb18980
+    List<CourseModel> toListModel(List<Course> courses);
 }

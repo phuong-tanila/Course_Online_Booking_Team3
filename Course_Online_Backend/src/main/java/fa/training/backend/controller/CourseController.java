@@ -1,9 +1,6 @@
 package fa.training.backend.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import fa.training.backend.entities.Category;
 import fa.training.backend.entities.Feedback;
@@ -60,9 +57,9 @@ public class CourseController {
     //api for history
     @GetMapping("/history/{id}")
     ResponseEntity<CourseModel> getCourseById(@PathVariable("id") int id) throws RecordNotFoundException {
-        Optional course = courseService.findById(id);
-        if (course.isPresent()) {
-            CourseModel courseModel = courseMapper.toModel((Course) course.get());
+        Course course = courseService.findById(id);
+        if (course != null) {
+            CourseModel courseModel = courseMapper.toModel(course);
             return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
         } else return new ResponseEntity<CourseModel>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }

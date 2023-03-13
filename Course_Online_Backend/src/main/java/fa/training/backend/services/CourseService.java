@@ -2,6 +2,7 @@ package fa.training.backend.services;
 
 import java.util.*;
 
+import fa.training.backend.exception.RecordNotFoundException;
 import fa.training.backend.helpers.ServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +57,8 @@ public class CourseService {
 //			throw new RecordNotFoundException("No course exist for given id");
 //		}
 //	}
-    public Course findById(int id) {
+    public Course findById(int id) throws RecordNotFoundException {
+        Optional<Course> course = courseRepository.findById(id);
         if (course.isPresent()) {
 			System.out.println(course.get().chapters);
 			return course.get();
