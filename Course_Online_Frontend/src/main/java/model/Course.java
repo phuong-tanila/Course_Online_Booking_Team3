@@ -2,7 +2,10 @@ package model;
 
 import lombok.*;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +53,7 @@ public class Course implements Serializable {
         return formatDate(this.endDate);
     }
 
+<<<<<<< HEAD
     @Override
     public String toString() {
         return "Course{" +
@@ -79,5 +83,18 @@ public class Course implements Serializable {
 //        Course c = new Course();
 //        c.setStartDate(new Date());
 //        System.err.println(c.getEndDate());
+=======
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        String password = "1";
+        System.out.println("My Hash: " + getHashCode(getHashCode(password)));
+
+    }
+
+    public static String getHashCode(String s) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(s.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
+>>>>>>> f70b0c005288ad0251bce84ec3a15e20ccb18980
     }
 }

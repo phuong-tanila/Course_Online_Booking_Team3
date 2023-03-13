@@ -1,6 +1,9 @@
 package fa.training.backend.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 import fa.training.backend.entities.Category;
 import fa.training.backend.entities.Feedback;
@@ -13,10 +16,13 @@ import fa.training.backend.model.CourseModel;
 import fa.training.backend.model.FeedbackModel;
 import fa.training.backend.repositories.CourseRepository;
 import fa.training.backend.services.FeedbackService;
+import fa.training.backend.util.SortOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +32,7 @@ import fa.training.backend.entities.Course;
 import fa.training.backend.services.CategoryService;
 import fa.training.backend.services.CourseService;
 
-import javax.websocket.server.PathParam;
+import org.springframework.data.domain.Sort.Order;
 
 @RestController
 @Slf4j
@@ -48,10 +54,22 @@ public class CourseController {
     public CategoryMapper categoryMapper;
     @Autowired
     public FeedbackMapper feedbackMapper;
-	@GetMapping("/{id}")
-    public ResponseEntity<CourseModel> getCourseById(@PathVariable("id") int id)
-			throws RecordNotFoundException {
+    @Autowired
+    public SortOrder sortOrder;
 
+    //api for history
+    @GetMapping("/history/{id}")
+    ResponseEntity<CourseModel> getCourseById(@PathVariable("id") int id) throws RecordNotFoundException {
+        Optional course = courseService.findById(id);
+        if (course.isPresent()) {
+            CourseModel courseModel = courseMapper.toModel((Course) course.get());
+            return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
+        } else return new ResponseEntity<CourseModel>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    //api for course-detail
+    @GetMapping("/{id}")
+    ResponseEntity<CourseModel> getCourseByIdIsActive(@PathVariable("id") int id) throws RecordNotFoundException {
         Course course = courseService.findById(id);
         CourseModel courseModel= courseMapper.toModel(course);
         HashMap<String, String> orders = new HashMap<>();
@@ -70,12 +88,11 @@ public class CourseController {
         return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
     }
 
-	@GetMapping("")
+    @GetMapping("")
     public ResponseEntity<List<CourseModel>> getAllCourses(
-                        @RequestParam(defaultValue = "0") Integer pageNo,
-                        @RequestParam(defaultValue = "5") Integer pageSize,
-                        @RequestParam(defaultValue = "id") String sortBy)
-    {
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
         List<Course> listCourses = courseService.getAllCourses(pageNo, pageSize, sortBy);
         List<CourseModel> result = new ArrayList<>();
         listCourses.forEach(c -> result.add(courseMapper.toModel(c)));
@@ -109,8 +126,6 @@ public class CourseController {
 //	}
 
 
-
-
 //	@GetMapping(value = "/categories/{categoryName}")
 //	public List<Course> getCourseByCategory(String categoryName){
 //		Category category= categoryService.getCategoryByName(categoryName);
@@ -120,17 +135,16 @@ public class CourseController {
 
     /**
      * @apiNote wait for checking naming conventions
-     * */
-	@GetMapping("/get-course-by-name")
+     */
+    @GetMapping("/get-course-by-name")
     public ResponseEntity<List<CourseModel>> getCourseByName(
-                @RequestParam(defaultValue = "0") Integer pageNo,
-                @RequestParam(defaultValue = "5") Integer pageSize,
-                @RequestParam(defaultValue = "id") String[] sortBy,
-                @RequestParam(defaultValue = "desc") String[] diretions,
-                @RequestParam (defaultValue = "java")String courseName
-            )throws RecordNotFoundException{
-        if(sortBy.length != diretions.length)
-        {
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String[] sortBy,
+            @RequestParam(defaultValue = "desc") String[] diretions,
+            @RequestParam(defaultValue = "java") String courseName
+    ) throws RecordNotFoundException {
+        if (sortBy.length != diretions.length) {
             return new ResponseEntity("the length of sortBy and diretions are not identical", new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
         HashMap<String, String> orderHashMap = new HashMap<>();
@@ -140,12 +154,13 @@ public class CourseController {
             orderHashMap.put(currentProperty, currentDirection);
         }
         List<Course> list = courseService.findByCourseName(pageNo, pageSize, orderHashMap, courseName);
-		List<CourseModel> results = new ArrayList<>();
-		list.forEach(course -> results.add(courseMapper.toModel(course)));
+        List<CourseModel> results = new ArrayList<>();
+        list.forEach(course -> results.add(courseMapper.toModel(course)));
         return new ResponseEntity<List<CourseModel>>(results, new HttpHeaders(), HttpStatus.OK);
     }
-	@GetMapping("/a")
-    public ResponseEntity<List<CourseModel>> getCourseCustom(){
+
+    @GetMapping("/a")
+    public ResponseEntity<List<CourseModel>> getCourseCustom() {
         List<Course> courses = courseService.customGetAll();
         List<CourseModel> result = new ArrayList<>();
         courses.forEach(c -> {
@@ -154,4 +169,25 @@ public class CourseController {
         return new ResponseEntity<List<CourseModel>>(result, new HttpHeaders(), HttpStatus.OK);
     }
 
+    private Sort.Direction getSortDirection(String direction) {
+        return direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+    }
+
+    @GetMapping("/b")
+    public ResponseEntity<List<CourseModel>> test(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id,desc") String[] sort) {
+        try {
+            Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortOrder.getSortOrder(sort)));
+            List<Course> courses = courseService.getCoursesByCategory(pageable);
+            List<CourseModel> result = courseMapper.toListModel(courses);
+            if (result.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

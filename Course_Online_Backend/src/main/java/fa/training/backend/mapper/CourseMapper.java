@@ -9,12 +9,15 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
+import java.util.List;
+
 @Mapper(componentModel="spring")
 public interface CourseMapper {
 
     @Mapping(target="feedbacks", ignore = true)
     CourseModel toModel(Course course);
     Course toEntity(CourseModel courseModel);
+<<<<<<< HEAD
 
     @AfterMapping
     default void decodeHTMLCharacter(CourseModel courseModel){
@@ -25,4 +28,7 @@ public interface CourseMapper {
     }
 
 //    List<>
+=======
+    List<CourseModel> toListModel(List<Course> course);
+>>>>>>> f70b0c005288ad0251bce84ec3a15e20ccb18980
 }
