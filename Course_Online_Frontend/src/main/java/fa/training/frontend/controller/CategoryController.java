@@ -1,4 +1,4 @@
-package fa.training.frontend.controllerCourses;
+package fa.training.frontend.controller;
 
 import model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
