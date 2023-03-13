@@ -1,55 +1,33 @@
 package fa.training.backend.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Transactional
+@JsonSerialize
 @Entity
+@Table(name = "chapter")
 public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "course_id")
-    private Integer courseId;
-    @Basic
     @Column(name = "chapter_name")
     private String chapterName;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    public Course  course;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getChapterName() {
-        return chapterName;
-    }
-
-    public void setChapterName(String chapterName) {
-        this.chapterName = chapterName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Chapter chapter = (Chapter) o;
-        return id == chapter.id && Objects.equals(courseId, chapter.courseId) && Objects.equals(chapterName, chapter.chapterName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, courseId, chapterName);
-    }
+    @Column(name="chapter_index")
+    public int chapterIndex;
 }

@@ -32,7 +32,7 @@ public class Course implements Serializable {
     public Set<OrderDetail> orderDetails;
     public Set<Category> categories;
     public Set<Feedback> feedbacks;
-
+    public Set<Chapter> chapters;
 
     public String getTuitionFeeFormat() {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
@@ -48,6 +48,31 @@ public class Course implements Serializable {
     }
     public String getEndDate(){
         return formatDate(this.endDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
+                ", objective='" + objective + '\'' +
+                ", suitable='" + suitable + '\'' +
+                ", slot=" + slot +
+                ", tuitionFee=" + tuitionFee +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", createDate=" + createDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status=" + status +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", createBy=" + createBy +
+                ", teacher=" + teacher +
+                ", lastUpdateUser=" + lastUpdateUser +
+                ", orderDetails=" + orderDetails +
+                ", categories=" + categories +
+                ", feedbacks=" + feedbacks +
+                ", chapters=" + chapters +
+                '}';
     }
 
     public static void main(String[] args) {

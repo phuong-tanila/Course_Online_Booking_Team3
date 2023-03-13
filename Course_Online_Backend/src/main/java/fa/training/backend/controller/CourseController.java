@@ -1,17 +1,18 @@
 package fa.training.backend.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import fa.training.backend.entities.Category;
+import fa.training.backend.entities.Feedback;
 import fa.training.backend.exception.RecordNotFoundException;
 
 import fa.training.backend.mapper.CategoryMapper;
 import fa.training.backend.mapper.CourseMapper;
 import fa.training.backend.mapper.FeedbackMapper;
 import fa.training.backend.model.CourseModel;
+import fa.training.backend.model.FeedbackModel;
 import fa.training.backend.repositories.CourseRepository;
+import fa.training.backend.services.FeedbackService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,6 +38,10 @@ public class CourseController {
 	public CourseService courseService;
 	@Autowired
 	public CategoryService categoryService;
+
+    @Autowired
+    public FeedbackService feedbackService;
+
 	@Autowired
 	private CourseMapper courseMapper;
     @Autowired
@@ -49,7 +54,19 @@ public class CourseController {
 
         Course course = courseService.findById(id);
         CourseModel courseModel= courseMapper.toModel(course);
+        HashMap<String, String> orders = new HashMap<>();
+        orders.put("createAt", "desc");
+        List<Feedback> feedbacks = feedbackService.getFeedbacksByCourseId(id, 1, 5, orders);
+        System.out.println(123);
+        System.out.println(course.getChapters());
 
+        System.out.println(456);
+        System.out.println(courseModel.getChapters());
+        courseModel.chapters.stream().sorted((c1, c2) -> {
+            return c1.chapterIndex - c2.chapterIndex;
+        });
+        Set<FeedbackModel> feedbackModels = new HashSet<>(feedbackMapper.toModelList(feedbacks));
+        courseModel.setFeedbacks(feedbackModels);
         return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
     }
 

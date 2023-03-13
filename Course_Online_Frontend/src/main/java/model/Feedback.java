@@ -11,6 +11,20 @@ public class Feedback implements Serializable {
     public String comment;
     public int rating;
     public OrderDetail orderDetail;
+
     public Course course;
+
     public User user;
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
+                ", rating=" + rating +
+                ", orderDetail=" + orderDetail +
+                ", course=" + course +
+                ", user=" + user +
+                '}';
+    }
 }

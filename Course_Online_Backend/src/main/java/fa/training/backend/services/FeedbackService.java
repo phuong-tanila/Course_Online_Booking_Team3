@@ -1,6 +1,8 @@
 package fa.training.backend.services;
 
 import fa.training.backend.entities.Feedback;
+import fa.training.backend.exception.RecordNotFoundException;
+import fa.training.backend.helpers.ServiceHelper;
 import fa.training.backend.repositories.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,26 +12,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class FeedbackService {
 	@Autowired
 	FeedbackRepository feedbackRepository;
-	public List<Feedback> getAllFeedbacks(int courseId, Integer pageNo, Integer pageSize, String sortBy, String direction) {
-		Sort sort;
-		if (direction.equalsIgnoreCase("desc")) {
-			sort = Sort.by(Sort.Direction.DESC, sortBy);
-		} else {
-			sort = Sort.by(Sort.Direction.ASC, sortBy);
-		}
-		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+	public List<Feedback> getFeedbacksByCourseId(int courseId, Integer pageNo, Integer pageSize, HashMap<String, String> orderHashMap) throws RecordNotFoundException {
+		Pageable pageable = ServiceHelper.getPageable(pageNo, pageSize, orderHashMap);
 
 		Page<Feedback> pagedResult = feedbackRepository.findAllByCourseId(courseId, pageable);
 		if (pagedResult.hasContent()) {
 			return pagedResult.getContent();
 		} else {
-			return new ArrayList<Feedback>();
+			throw new RecordNotFoundException("ads");
 		}
 	}
 

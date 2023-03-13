@@ -50,6 +50,7 @@ public class CourseService {
 		Optional<Course> course = courseRepository.findById(id);
 
 		if (course.isPresent()) {
+			System.out.println(course.get().chapters);
 			return course.get();
 		} else {
 			throw new RecordNotFoundException("No course exist for given id");

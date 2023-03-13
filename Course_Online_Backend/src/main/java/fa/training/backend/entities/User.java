@@ -37,7 +37,9 @@ public class User implements Serializable {
 	public String phone;
 	@Column(length = Integer.MAX_VALUE)
 	public String email;
-	
+
+	@Column(length = Integer.MAX_VALUE)
+	public String avatar;
 	@Column
 	public String role;
 	@Column(length = Integer.MAX_VALUE)
@@ -57,4 +59,6 @@ public class User implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
+
+
 }

@@ -73,4 +73,7 @@ public class Course implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	public Set<Feedback> feedbacks;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
+	public Set<Chapter> chapters;
+
 }

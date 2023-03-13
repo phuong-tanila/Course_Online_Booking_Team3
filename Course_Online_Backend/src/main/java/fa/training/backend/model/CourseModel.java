@@ -5,7 +5,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fa.training.backend.entities.Chapter;
 import lombok.Data;
+import org.mapstruct.BeanMapping;
 
 @Data
 public class CourseModel {
@@ -26,5 +28,5 @@ public class CourseModel {
 	public UserModel teacher;
 	public UserModel lastUpdateUser;
 	public Set<FeedbackModel> feedbacks;
-	
+	public Set<ChapterModel> chapters;
 }

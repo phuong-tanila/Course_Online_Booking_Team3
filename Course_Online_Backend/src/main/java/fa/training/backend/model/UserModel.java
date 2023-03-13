@@ -2,6 +2,7 @@ package fa.training.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fa.training.backend.entities.Chapter;
 import fa.training.backend.entities.Course;
 import lombok.Data;
 
@@ -23,6 +24,8 @@ public class UserModel {
 
     public String role;
 
+    public String avatar;
     public String description;
+
 
 }
