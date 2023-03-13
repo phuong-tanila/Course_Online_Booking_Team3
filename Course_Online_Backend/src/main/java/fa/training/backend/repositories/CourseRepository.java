@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import fa.training.backend.entities.Category;
 import fa.training.backend.model.CourseModel;
+import fa.training.backend.model.FeedbackModel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,4 @@ import fa.training.backend.entities.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-	public List<Course> findByCourseNameIgnoreCaseContaining(String courseName, Pageable pageable);
-
 }

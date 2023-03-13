@@ -18,4 +18,5 @@ public class CategoryService {
 	public List<Category> getCategoryCategoryName(String categoryName) {
 		return categoryRepository.findByCategoryNameIgnoreCaseContaining(categoryName);
 	}
+
 }

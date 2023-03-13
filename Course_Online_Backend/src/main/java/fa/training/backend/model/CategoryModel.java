@@ -11,5 +11,4 @@ public class CategoryModel {
     public int id;
     public String categoryName;
     public Set<CourseModel> courses;
-
 }

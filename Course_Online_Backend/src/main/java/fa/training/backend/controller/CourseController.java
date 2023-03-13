@@ -1,21 +1,10 @@
 package fa.training.backend.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import fa.training.backend.entities.Category;
-import fa.training.backend.entities.Feedback;
 import fa.training.backend.exception.RecordNotFoundException;
-
-import fa.training.backend.mapper.CategoryMapper;
 import fa.training.backend.mapper.CourseMapper;
-import fa.training.backend.mapper.FeedbackMapper;
-import fa.training.backend.model.CategoryModel;
 import fa.training.backend.model.CourseModel;
-import fa.training.backend.model.FeedbackModel;
-import fa.training.backend.services.FeedbackService;
-import fa.training.backend.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import fa.training.backend.entities.Course;
-import fa.training.backend.services.CategoryService;
 import fa.training.backend.services.CourseService;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @Slf4j
@@ -36,18 +22,9 @@ public class CourseController {
 	@Autowired
 	public CourseService courseService;
 	@Autowired
-	public CategoryService categoryService;
-    @Autowired
-    public FeedbackService feedbackService;
-    @Autowired
-    UserService userService;
-	@Autowired
 	private CourseMapper courseMapper;
-    @Autowired
-    public CategoryMapper categoryMapper;
-    @Autowired
-    public FeedbackMapper feedbackMapper;
-    /*Show tat ca course*/
+
+    /*Show all course*/
     @GetMapping("/all-courses")
     public List<CourseModel> getCourses() {
         List<CourseModel> modelList = new ArrayList<>();
@@ -68,6 +45,21 @@ public class CourseController {
 
         return new ResponseEntity<CourseModel>(courseModel, new HttpHeaders(), HttpStatus.OK);
     }
+    /*Phan trang list-course*/
+    @GetMapping("/paging-list-courses")
+    public ResponseEntity<List<CourseModel>> getAllCourses(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize)
+     {
+        List<CourseModel> modelList = new ArrayList<>();
+        List<Course> courseList = courseService.getAllCourses(pageNo, pageSize);
+        for (Course course : courseList) {
+            CourseModel courseModel = courseMapper.toModel(course);
+            modelList.add(courseModel);
+        }
+        return new ResponseEntity<List<CourseModel>>(modelList, new HttpHeaders(), HttpStatus.OK);
+    }
+
     /*Show tat ca course phan trang sort theo id*/
     @GetMapping("/list-courses")
     public ResponseEntity<List<CourseModel>> getAllCourses(
@@ -75,7 +67,6 @@ public class CourseController {
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy) {
         List<CourseModel> modelList = new ArrayList<>();
-        ;
         List<Course> courseList = courseService.getAllCourses(pageNo, pageSize, sortBy);
         for (Course course : courseList) {
             CourseModel courseModel = courseMapper.toModel(course);
@@ -84,43 +75,6 @@ public class CourseController {
         return new ResponseEntity<List<CourseModel>>(modelList, new HttpHeaders(), HttpStatus.OK);
     }
 
-    /*Show tat ca feedback*/
-    @GetMapping("/list-feedback")
-    public List<FeedbackModel> getAllFeedback() {
-        List<FeedbackModel> modelList = new ArrayList<>();
-        ;
-        List<Feedback> feedbacks = feedbackService.findAll();
-        for (Feedback feedback : feedbacks) {
-            FeedbackModel feedbackModel = feedbackMapper.toModel(feedback);
-            modelList.add(feedbackModel);
-        }
-        return modelList;
-    }
-
-    /*Show feedback sort theo rating*/
-    @GetMapping("/sortFeedbackByRating")
-    public List<CourseModel> sortCourseByRating() {
-        List<FeedbackModel> feedbackModels= feedbackService.getAllFeedback();
-        List<Course> courseList= courseService.getCourseByRaing(feedbackModels);
-        List<CourseModel> modelList = new ArrayList<>();
-        for (Course course : courseList) {
-            CourseModel courseModel = courseMapper.toModel(course);
-            modelList.add(courseModel);
-        }
-        return modelList;
-    }
-
-    /*Show tat ca category*/
-    @GetMapping("/list-category")
-    public List<CategoryModel> getAllCategory() {
-        List<CategoryModel> modelList = new ArrayList<>();
-        List<Category> categories = categoryService.getAllCategory();
-        for (Category category : categories) {
-            CategoryModel categoryModel = categoryMapper.toModel(category);
-            modelList.add(categoryModel);
-        }
-        return modelList;
-    }
     /*Show course theo course name*/
 //    @GetMapping("/get-course-by-name/{courseName}")
 //    public ResponseEntity<List<CourseModel>> getCourseByName(
@@ -146,8 +100,16 @@ public class CourseController {
 //        return new ResponseEntity<List<CourseModel>>(results, new HttpHeaders(), HttpStatus.OK);
 //    }
 
-
-
-
+    /*Show all course*/
+//    @GetMapping("/all-courses-most-feedback")
+//    public List<CourseModel> getCoursesMostFeedBack() {
+//        List<CourseModel> modelList = new ArrayList<>();
+//        List<Course> courseList = courseService.findAll();
+//        for (Course course : courseList) {
+//            CourseModel courseModel = courseMapper.toModel(course);
+//            modelList.add(courseModel);
+//        }
+//        return modelList;
+//    }
 
 }

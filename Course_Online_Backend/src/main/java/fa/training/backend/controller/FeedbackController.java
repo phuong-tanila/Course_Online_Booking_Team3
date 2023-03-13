@@ -2,17 +2,16 @@ package fa.training.backend.controller;
 
 import fa.training.backend.entities.Course;
 import fa.training.backend.entities.Feedback;
+import fa.training.backend.entities.User;
+import fa.training.backend.exception.RecordNotFoundException;
 import fa.training.backend.mapper.FeedbackMapper;
 import fa.training.backend.model.FeedbackModel;
+import fa.training.backend.services.CourseService;
 import fa.training.backend.services.FeedbackService;
+import fa.training.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -24,19 +23,60 @@ public class FeedbackController {
     private FeedbackMapper feedbackMapper;
     @Autowired
     private FeedbackService feedbackService;
-//    @GetMapping("/feedbacks/{courseId}")
-//
-//    public ResponseEntity<List<FeedbackModel>> getAllByUserId(
-//            @PathVariable("courseId") Integer courseId,
-//            @RequestParam(defaultValue = "0") int pageNo,
-//            @RequestParam(defaultValue = "5") Integer pageSize,
-//            @RequestParam(defaultValue = "rating") String[] sortBy,
-//            @RequestParam(defaultValue = "desc") String[] direction
-//    )
-//    {
-//        List<Feedback> feedbacks = feedbackService.getAllFeedbacks(courseId, pageNo, pageSize, sortBy, direction);
-//        List<FeedbackModel> feedbackModels = new ArrayList<>();
-//        feedbacks.forEach(f -> feedbackModels.add(mapStructConverter.toModel(f)));
-//        return new ResponseEntity<List<FeedbackModel>>(feedbackModels, new HttpHeaders(), HttpStatus.OK);
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private UserService userService;
+
+    /*Show tat ca feedback*/
+    @GetMapping("/list-feedback")
+    public List<FeedbackModel> getAllFeedback() {
+        List<FeedbackModel> modelList = new ArrayList<>();
+        List<Feedback> feedbacks = feedbackService.findAll();
+        for (Feedback feedback : feedbacks) {
+            FeedbackModel feedbackModel = feedbackMapper.toModel(feedback);
+            modelList.add(feedbackModel);
+        }
+        return modelList;
+    }
+
+    /*Show feedback cua 1 course theo courseid*/
+    @GetMapping("/feedback-by-course/{id}")
+    public List<FeedbackModel> getFeedbackByCourse(@PathVariable("id") int id) throws RecordNotFoundException {
+        Course course = courseService.findById(id);
+        List<FeedbackModel> modelList = new ArrayList<>();
+        List<Feedback> feedbacks = feedbackService.getFeedbackByCourse(course);
+        for (Feedback feedback : feedbacks) {
+            FeedbackModel feedbackModel = feedbackMapper.toModel(feedback);
+            modelList.add(feedbackModel);
+        }
+        return modelList;
+    }
+     /*Show feedback cua course theo course id sort feedback theo rating*/
+//    @GetMapping("/feedback-by-course-sort/{id}")
+//    public List<FeedbackModel> getFeedbackByCourseSort(@PathVariable("id") int id) throws RecordNotFoundException {
+//        Course course = courseService.findById(id);
+//        List<FeedbackModel> modelList = new ArrayList<>();
+//        List<Feedback> feedbacks = feedbackService.sortFeedbackByCourse(course);
+//        for (Feedback feedback : feedbacks) {
+//            FeedbackModel feedbackModel = feedbackMapper.toModel(feedback);
+//            modelList.add(feedbackModel);
+//        }
+//        return modelList;
 //    }
+    /*Show list course sort theo nhieu feedback nhat */
+
+
+    /*Show feedback cua 1 user*/
+    @GetMapping("/feedback-by-user/{id}")
+    public List<FeedbackModel> getFeedbackByUser(@PathVariable("id") int id) throws RecordNotFoundException {
+        User user = userService.findById(id);
+        List<FeedbackModel> modelList = new ArrayList<>();
+        List<Feedback> feedbacks = feedbackService.getFeedbackByUser(user);
+        for (Feedback feedback : feedbacks) {
+            FeedbackModel feedbackModel = feedbackMapper.toModel(feedback);
+            modelList.add(feedbackModel);
+        }
+        return modelList;
+    }
 }
