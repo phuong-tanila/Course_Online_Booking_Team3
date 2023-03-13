@@ -8,11 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import fa.training.backend.entities.Category;
 import fa.training.backend.entities.Course;
-import fa.training.backend.exception.RecordNotFoundException;
 import fa.training.backend.repositories.CourseRepository;
 
 @Service
@@ -20,16 +20,13 @@ public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
-    public List<Course> findAll() {
-        return courseRepository.findAll();
+    public List<Course> findAll(Sort sort) {
+        return courseRepository.findAll(sort);
     }
-
 
     public List<Course> getAllCourses(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
         Page<Course> pagedResult = courseRepository.findAll(pageable);
-
         if (pagedResult.hasContent()) {
             return pagedResult.getContent();
         } else {
@@ -37,6 +34,14 @@ public class CourseService {
         }
     }
 
+    public List<Course> getCoursesByCategory(Pageable pageable) {
+        Page<Course> pagedResult = courseRepository.findAll(pageable);
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Course>();
+        }
+    }
 
     public List<Course> findByCourseName(Integer pageNo, Integer pageSize, HashMap<String, String> orderHashMap, String courseName) {
         Pageable pageable = ServiceHelper.getPageable(pageNo, pageSize, orderHashMap);
@@ -77,15 +82,19 @@ public class CourseService {
         }
     }
 
-    public List<Course> getCourseByCategory(Integer pageNo, Integer pageSize, String sortBy, String direction, List<Category> categories) {
-        Sort sort;
-        if (direction.equalsIgnoreCase("desc")) {
-            sort = Sort.by(Sort.Direction.DESC, sortBy);
-        } else {
-            sort = Sort.by(Sort.Direction.ASC, sortBy);
-        }
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        List<Course> courses = courseRepository.findCourseByCategoriesIn(categories, pageable);
+    //    public List<Course> getCourseByCategory(Integer pageNo, Integer pageSize, String sortBy, String direction, List<Category> categories) {
+//        Sort sort;
+//        if (direction.equalsIgnoreCase("desc")) {
+//            sort = Sort.by(Sort.Direction.DESC, sortBy);
+//        } else {
+//            sort = Sort.by(Sort.Direction.ASC, sortBy);
+//        }
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+//        List<Course> courses = courseRepository.findCourseByCategoriesIn(categories, pageable);
+//        return courses;
+//    }
+    public List<Course> findCourseByCategory(int categoryId, Pageable pageable) {
+        List<Course> courses = courseRepository.findCoursesByCategory(categoryId, pageable);
         return courses;
     }
 

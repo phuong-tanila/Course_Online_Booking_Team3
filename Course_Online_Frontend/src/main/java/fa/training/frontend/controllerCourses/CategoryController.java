@@ -12,29 +12,16 @@ import java.util.List;
 
 
 @Controller
-public class CoursesController {
+public class CategoryController {
     @Autowired
     private RestTemplate restTemplate;
     @Value("${courses.api.url}")
     private String apiUrl;
-    @GetMapping("/home")
+    @GetMapping("/category")
     public String index(Model model) {
-        String url = apiUrl + "/courses";
+        String url = apiUrl + "/category/1";
         List<Course> courses = List.of(restTemplate.getForObject(url, Course[].class));
         model.addAttribute("courses", courses);
-        return "home-page";
+        return "show-list-course";
     }
-    @GetMapping("/")
-    public String index() {
-//        model.addAttribute("courses", new Course());
-//        System.err.println(model);
-        return "home-page";
-    }
-//    @PostMapping("/")
-//    public String getWeatherInfo(@ModelAttribute("weather") WeatherInfo weather, Model model) {
-//        String url = apiUrl + "?city=" + weather.getName();
-//        WeatherInfo weatherInfo = restTemplate.getForObject(url, WeatherInfo.class);
-//        model.addAttribute("weather", weatherInfo);
-//        return "weather";
-//    }
 }

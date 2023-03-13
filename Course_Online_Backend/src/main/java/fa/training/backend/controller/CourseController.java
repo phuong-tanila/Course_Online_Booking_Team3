@@ -12,11 +12,13 @@ import fa.training.backend.mapper.CategoryMapper;
 import fa.training.backend.mapper.CourseMapper;
 import fa.training.backend.mapper.FeedbackMapper;
 import fa.training.backend.model.CourseModel;
-import fa.training.backend.repositories.CourseRepository;
+import fa.training.backend.util.SortOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ import fa.training.backend.entities.Course;
 import fa.training.backend.services.CategoryService;
 import fa.training.backend.services.CourseService;
 
-import javax.websocket.server.PathParam;
+import org.springframework.data.domain.Sort.Order;
 
 @RestController
 @Slf4j
@@ -43,6 +45,8 @@ public class CourseController {
     public CategoryMapper categoryMapper;
     @Autowired
     public FeedbackMapper feedbackMapper;
+    @Autowired
+    public SortOrder sortOrder;
 
     //api for history
     @GetMapping("/history/{id}")
@@ -145,4 +149,25 @@ public class CourseController {
         return new ResponseEntity<List<CourseModel>>(result, new HttpHeaders(), HttpStatus.OK);
     }
 
+    private Sort.Direction getSortDirection(String direction) {
+        return direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+    }
+
+    @GetMapping("/b")
+    public ResponseEntity<List<CourseModel>> test(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id,desc") String[] sort) {
+        try {
+            Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortOrder.getSortOrder(sort)));
+            List<Course> courses = courseService.getCoursesByCategory(pageable);
+            List<CourseModel> result = courseMapper.toListModel(courses);
+            if (result.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
