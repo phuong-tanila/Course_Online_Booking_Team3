@@ -17,13 +17,9 @@ public class UserModel {
     @JsonProperty
     public int id;
     public String fullname;
-
     public String phone;
-
     public String email;
-
     public String role;
-
     public String avatar;
     public String description;
 

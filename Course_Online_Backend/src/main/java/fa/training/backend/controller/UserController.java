@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 	@Autowired
 	public CourseService courseService;
 //	@GetMapping("/list-user")
